@@ -1,0 +1,72 @@
+https://www.hackerrank.com/contests/alcoding-summer-weekly-contest-2/challenges/repeat-k-sums
+
+
+Editorial:-
+
+Firstly, For a given N and K the number of terms in K-Sums sequence will be n+k-1 Choose k. 
+Let these terms be M and represented by array Sums[] and original array be A[]
+
+After sorting this Sums[] sequence we can say that A[0] = Sums[0]/K. And erase S[0] as it won't have information for any other terms in sequence A[].
+
+Hence for any Sums[i] we note that after erasing all k-sums involving numbers a[0], a[1], ..., a[i-1] the minimal k-sum is a[i] + (k-1) * a[0], hence giving the next a[i] value.
+
+We do the removing part using dynamic programming. Erasing all the terms in S[] that are made using previous K sum elements of A[] till A[i].
+
+Also we don't need to erase k-sums that contain a[n-1] since we have already restored the whole array by then.
+
+
+
+C++ code:-
+
+#include <cmath>
+#include <set>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+    
+#define MAX 100000
+    
+int n, k;
+long long a[MAX];
+    
+multiset<long long> s;
+    
+void rec(int m, int idx, int at, long long sum) {
+    if (at == k - 1) {
+        s.erase(s.find(sum));
+    }
+    else {
+        rec(m, idx, at + 1, sum + a[idx]);
+        if (idx + 1 < m) {
+            rec(m, idx + 1, at, sum);
+        }
+    }
+}
+int main() {
+//    freopen("input.txt", "r", stdin);
+    int T;
+    scanf("%d", &T);
+    while (T--) {
+        s.clear();
+        scanf("%d%d", &n, &k);
+        char c;
+        scanf("%c", &c);
+        while (true) {
+            long long temp;
+            scanf("%lld%c", &temp, &c);
+            s.insert(temp);
+            if (c == '\n') break;
+        }
+    
+        a[0] = *s.begin() / k;
+        s.erase(s.begin());
+        for (int i = 1; i < n; i++) {
+            a[i] = ((*s.begin()) - a[0] * (k - 1));
+            rec(i + 1, 0, 0, a[i]);
+        }
+        for (int i = 0; i < n - 1; i++) printf("%lld ", a[i]); printf("%lld\n", a[n - 1]);
+    }
+    return 0;
+}

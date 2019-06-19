@@ -1,0 +1,32 @@
+https://www.hackerrank.com/contests/alcoding-summer-weekly-contest-2/challenges/clash-of-clans
+
+
+
+Editorial:-
+
+just find GCD of R anf B
+
+C++ code:-
+
+#include <iostream>
+using namespace std;
+
+int gcd(int a, int b) {
+   if (b == 0)
+   return a;
+   return gcd(b, a % b);
+}
+
+int main(int argc, char const *argv[])
+{
+    int t;
+    cin>>t;
+    int r,b;
+    while(t--)
+    {
+        cin>>r>>b;
+        cout<<gcd(r,b)<<endl;
+
+    }
+    return 0;
+}

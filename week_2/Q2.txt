@@ -1,0 +1,43 @@
+https://www.hackerrank.com/contests/alcoding-summer-weekly-contest-2/challenges/grid-walker/problem
+
+Editorial:-
+	
+	using the recurrence relation for noOfPaths(x,y) = 1 is X OR Y = 1 else equal to noOfPaths(x-1,y)+noOfPaths(x,y-1).
+
+
+Python code:-
+
+def noOfPaths(x,y):
+    if(x==1 or y==1):
+        return 1
+    else:
+        return noOfPaths(x-1,y)+noOfPaths(x,y-1)
+t = int(input())
+for i in range(t):
+    x,y = [int(i) for i in input().split()]
+    print(noOfPaths(x,y))
+
+
+C++ code:-
+
+#include <iostream>
+using namespace std;
+
+long noOfPaths(int x, int y)
+{
+    if(x==1 || y==1) return 1;
+    else return noOfPaths(x-1,y)+noOfPaths(x,y-1);
+}
+
+int main() {
+    /* Enter your code here. Read input from STDIN. Print output to STDOUT */  
+    int t;
+    int x,y;
+    cin>>t;
+    while(t--)
+    {
+        cin>>x>>y;
+        cout<<noOfPaths(x,y)<<endl;
+    }
+    return 0;
+}
