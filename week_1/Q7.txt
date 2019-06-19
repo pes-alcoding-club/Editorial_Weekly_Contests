@@ -1,0 +1,107 @@
+https://www.hackerrank.com/contests/alcoding-summer-weekly-contest-1/challenges/playing-with-numbers/problem
+
+
+Editorial:-
+	
+	https://www.hackerrank.com/contests/alcoding-summer-weekly-contest-1/challenges/playing-with-numbers/editorial
+
+
+Python code:-
+
+n = int(input())
+arr = list(map(int, input().split()))
+
+q = int(input())
+queries = list(map(int, input().split()))
+
+count = [0]*4001
+for i in arr:
+    count[2000 + i] += 1
+    
+sum_num_right = []
+sum_num_right.append(n)
+for i in range(4000):
+    sum_num_right.append(sum_num_right[i] - count[i])
+
+sum_right = [0]*4001
+for i in range(4001):
+    sum_right[0] += count[i] * i
+    
+for i in range(1,4001):
+    sum_right[i] = sum_right[i - 1] - sum_num_right[i]
+    
+sum_left = [0]*4001
+for i in range(4000, -1, -1):
+    sum_left[4000] += count[i] * (4000 - i)
+    
+for i in range(3999, -1, -1):
+    sum_left[i] = sum_left[i + 1] - (n - sum_num_right[i + 1])
+    
+acc = 0
+for i in queries:
+    acc += i
+    mid = 2000 - acc
+    if mid < 4001 and mid >= 0:
+        print(sum_right[mid] + sum_left[mid])
+    elif mid < 0:
+        print(sum_right[0] + n * abs(mid))
+    else:
+        print(sum_left[4000] + n * (mid - 4000))
+
+
+
+C++ code:-
+
+#include <iostream>
+#include <cmath>
+#include <algorithm>
+#include <cstdio>
+using namespace std;
+
+int main(int argc, char *argv[])
+{
+    long long int n_val, num_of_queries, val_to_add, net_sum= 0;
+    cin >> n_val;
+    long long int arr[n_val];
+    for(long long int idx=0; idx<n_val; idx++) cin >> arr[idx];
+    sort(arr, arr+n_val);
+    long long int border_idx = n_val;
+    for(long long int idx=n_val - 1; idx >=0; idx--){
+        if(arr[idx] >= 0){
+            border_idx = idx;
+        }
+        net_sum += abs(arr[idx]);
+    }
+    long long int input_sum = 0;
+    scanf("%lld",& num_of_queries);
+    for(long long int itr=0; itr<num_of_queries; itr++){
+        scanf("%lld" ,&val_to_add);
+        input_sum += val_to_add;
+
+        long long int traversal_sum = 0;
+        if(val_to_add >= 0){
+            net_sum += ((n_val - border_idx)*val_to_add + ((-1)*border_idx*val_to_add));
+            while(border_idx > 0){
+                if(arr[border_idx - 1] + input_sum >= 0){
+                    traversal_sum += (2*(arr[border_idx - 1] + input_sum));
+                    border_idx--;
+                }
+                else break;
+            }
+            net_sum +=  traversal_sum;
+        }
+        else{
+            net_sum += ((n_val - border_idx)*val_to_add + ((-1)*border_idx*val_to_add));
+            while(border_idx < n_val){
+                if(arr[border_idx] + input_sum < 0){
+                    traversal_sum += ((-1)*2*(arr[border_idx] + input_sum));
+                    border_idx++;
+                }
+                else break;
+            }
+            net_sum += traversal_sum;
+        }
+        printf("%lld\n", net_sum);
+    }
+    return 0;
+}

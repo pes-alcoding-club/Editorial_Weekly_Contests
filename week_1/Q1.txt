@@ -1,0 +1,102 @@
+https://www.hackerrank.com/contests/alcoding-summer-weekly-contest-1/challenges/the-grid-search/problem
+
+Editorial:-
+	
+	 Do an element by element match for the smaller array in the larger 2D and breaks as soon as there is a mismatch.
+
+
+c++ code:-
+	
+	#include <bits/stdc++.h>
+using namespace std;
+
+int M, N, R, C;
+vector <string> g, pat;
+bool present(int x, int y) {
+    for(int i = 0; i < (int)R; ++i) {
+        for(int j = 0; j < (int)C; ++j) {
+            int ii = i + x, jj = j + y;
+            if(ii >= M || jj >= N)
+                return false;
+            else if(g[ii][jj] != pat[i][j])
+                return false;
+            else
+                continue;
+        }
+    }
+    return true;
+}
+
+int main()
+{
+int t;
+cin >> t;
+assert(t >= 1 && t <= 5);
+
+while(t--) {
+    cin >> M >> N;
+    g = vector <string> (M);
+    for(int i = 0; i < (int)M; ++i) {
+        cin >> g[i];
+    }
+
+    cin >> R >> C;
+    pat = vector <string>(R);
+    for(int i = 0; i < (int)R; ++i) {
+        cin >> pat[i];
+    }
+
+    bool isPresent = false;
+
+    for(int i = 0; i < (int)M; ++i) {
+        for(int j = 0; j < (int)N; ++j) {
+            isPresent = present(i, j);
+            if(isPresent)
+                break;
+        }
+        if(isPresent)
+            break;
+    }
+
+    cout << (isPresent? "YES" : "NO")<<"\n";
+}
+
+return 0;
+
+}
+
+
+
+Python code:-
+
+
+# search based solution  
+for _ in range(input()):
+    big = []
+    small = []
+    R, C = map(int, raw_input().split())
+    for __ in range(R):
+        big.append(raw_input())
+    big_str = "".join(big)
+    r, c = map(int, raw_input().split())
+    for __ in range(r):
+        small.append(raw_input())
+    small_str = small[0]
+    # get all starting positions of first line of small grid
+    t = [i for i in range(len(big_str)) if big_str.startswith(small_str, i)]
+    for i in t:
+        flag = 1
+        row = i / C
+        col = i % C
+        if row > R - r:
+            flag = 0
+            continue
+        for j in range(1,r):
+            if small[j] != big[row+j][col: col + c]:
+                flag = 0
+                break
+        if flag == 1:
+            print "YES"
+            break
+    else:
+        print "NO"
