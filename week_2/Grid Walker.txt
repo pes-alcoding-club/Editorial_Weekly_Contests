@@ -1,0 +1,25 @@
+There is a toy car traversing through a rectangular grid of unknown dimensions. It always starts at the north-west corner and it must reach the south-east corner. It can only move one step at a time eastwards or southwards.
+
+Input Format
+
+The first line contains the number of test cases T. The first line of each test case contains the the dimensions of the grid x and Y.
+
+Constraints
+
+1 <= T <= 50
+1 <= X,Y <= 10
+Output Format
+
+A single integer indicating the total number of ways the toy car can reach it's destination.
+
+Sample Input 0
+
+1
+2 2
+Sample Output 0
+
+2
+Explanation 0
+
+It is a 2x2 grid. Only 2 possible paths. One step to the east and then to the south or one 
+step to the south and then to the east.

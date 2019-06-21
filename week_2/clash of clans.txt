@@ -1,0 +1,42 @@
+Their are two clans blue and red having R and B number of people who are about to participate in a Battle Royale like PUBG.
+
+But their is a difference in the number of people in the two clans which would make the battle unfair.So the leaders of the two clans came to an agreement that the number of people taking part from each of the two clans should be the divisor D of both the clans total number of people.
+
+Your task is to find the maximum number of people P who would participate from each clan so that the battle between them would be interesting.
+
+Input Format
+
+First line gives number of test cases T Then T lines follow in each of the Testcase two numbers R and B is specified giving the number of people in clans red and blue.
+
+Constraints
+
+0< T <=100000
+0< R,B <=1000000000
+Output Format
+
+For each test case print the maximum people P who would participate in the battle royale in a newline.
+
+Sample Input 0
+
+1
+10 20
+Sample Output 0
+
+10
+Explanation 0
+
+10 is the maximum possible number of people from each clan participating in the battle royale 
+Sample Input 1
+
+2
+30 47
+30 30
+Sample Output 1
+
+1
+30
+Explanation 1
+
+Only the leaders can participate in the battle royale in case 1.
+
+The entire clan can particiapte in the battle royale in case 2.

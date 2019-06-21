@@ -1,0 +1,49 @@
+Given a spirally sorted matrix with N * N elements and an integer X, your task is to find the position(Index) of this given integer X in the matrix if it exists, else print -1. Note that all the matrix elements are distinct.
+
+Note:- brute force search in 2D matrix will not work.
+
+Note:-In case you are using C,C++ make sure you use fast I/O methods. refer
+
+Input Format
+
+First line contains number of test cases T. Following T lines contains First line N then N * N matrix elements. Next line contains the search key in the matrix X.
+
+Constraints
+
+0 < T <= 30
+0 < N <= 1000
+0 < A[i][j] <= 1000000000
+0 < x <= 1000000000
+Output Format
+
+For every single test case print the position row column (i j) of the element if present else -1 in a new line.
+
+Sample Input 0
+
+1
+4
+1 2 3 4
+12 13 14 5
+11 16 15 6
+10 9 8 7 
+9
+Sample Output 0
+
+3 1
+Explanation 0
+
+9 appears in row number 3 and column number 1 (0-based indexing) Thus, output is 3 1.
+
+Sample Input 1
+
+1
+2
+1 2
+4 3
+8
+Sample Output 1
+
+-1
+Explanation 1
+
+8 is not present in the matrix so return -1

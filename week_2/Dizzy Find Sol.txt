@@ -1,0 +1,173 @@
+A solution is to use binary search. We apply binary search in two phases. But before jumping to that, lets define what a ring means in here. A ring is defined as a set of all the the cells in the array such that there minimum of the distances from all the four sides is equal.
+First, we try to determine the ring the number ‘X’ will belong to. We will do this using binary search. For that, observe the diagonal elements of the matrix. First ceil(N/2) of the diagonal matrix are guaranteed to be sorted in increasing order. So, each one of the ceil(N/2) diagonal elements can represent a ring. By, applying binary on the first ceil(N/2) diagonal elements, we determine the ring the number ‘X’ belongs to in O(log(n)) time. After that, we apply binary search on the elements of the ring. Before that we determine the side of the ring, the number ‘X’ will belong to. Then, we apply the binary search correspondingly.
+So, the total time complexity becomes O(log(n)).
+
+
+Problem Setter's code :
+# Python3 implementation of the above approach  
+  
+# Function to return the ring,  
+# the number x belongs to.  
+def findRing(arr, x):  
+  
+    # Returns -1 if number x is smaller  
+    # than least element of arr  
+    if arr[0][0] > x: 
+        return -1
+  
+    # l and r represent the diagonal  
+    # elements to search in  
+    l, r = 0, (n + 1) // 2 - 1
+  
+    # Returns -1 if number x is greater  
+    # than the largest element of arr  
+    if n % 2 == 1 and arr[r][r] < x:  
+        return -1
+    if n % 2 == 0 and arr[r + 1][r] < x:  
+        return -1
+  
+    while l < r: 
+        mid = (l + r) // 2
+        if arr[mid][mid] <= x:  
+              
+            if (mid == (n + 1) // 2 - 1 or
+                arr[mid + 1][mid + 1] > x):  
+                return mid  
+            else: 
+                l = mid + 1
+          
+        else: 
+            r = mid - 1
+      
+    return r  
+  
+# Function to perform binary search  
+# on an array sorted in increasing order  
+# l and r represent the left and right  
+# index of the row to be searched  
+def binarySearchRowInc(arr, row, l, r, x):  
+  
+    while l <= r:  
+        mid = (l + r) // 2
+          
+        if arr[row][mid] == x:  
+            return mid  
+        elif arr[row][mid] < x:  
+            l = mid + 1
+        else: 
+            r = mid - 1
+      
+    return -1
+  
+# Function to perform binary search on  
+# a particlar column of the 2D array  
+# t and b represent top and  
+# bottom rows  
+def binarySearchColumnInc(arr, col, t, b, x):  
+  
+    while t <= b: 
+          
+        mid = (t + b) // 2
+          
+        if arr[mid][col] == x:  
+            return mid  
+        elif arr[mid][col] < x:  
+            t = mid + 1
+        else: 
+            b = mid - 1
+      
+    return -1
+  
+# Function to perform binary search on  
+# an array sorted in decreasing order  
+def binarySearchRowDec(arr, row, l, r, x):  
+  
+    while l <= r: 
+          
+        mid = (l + r) // 2
+          
+        if arr[row][mid] == x:  
+            return mid  
+        elif arr[row][mid] < x:  
+            r = mid - 1
+        else: 
+            l = mid + 1
+      
+    return -1
+  
+# Function to perform binary search on a  
+# particlar column of the 2D array  
+def binarySearchColumnDec(arr, col, t, b, x):  
+  
+    while t <= b: 
+        mid = (t + b) // 2
+          
+        if arr[mid][col] == x:  
+            return mid  
+        elif arr[mid][col] < x:  
+            b = mid - 1
+        else: 
+            t = mid + 1
+      
+    return -1
+  
+# Function to find the position of the number x  
+def spiralBinary(arr, x):  
+  
+    # Finding the ring  
+    f1 = findRing(arr, x)  
+  
+    # To store row and column  
+    r, c = None, None
+  
+    if f1 == -1:  
+        print("-1")  
+        return
+  
+    # Edge case if n is odd  
+    if n % 2 == 1 and f1 == (n + 1) // 2 - 1:  
+        print(f1, f1)  
+        return
+  
+    # Check which of the 4 sides,  
+    # the number x lies in  
+    if x < arr[f1][n - f1 - 1]:  
+        c = binarySearchRowInc(arr, f1, f1,  
+                            n - f1 - 2, x)  
+        r = f1  
+      
+    elif x < arr[n - f1 - 1][n - f1 - 1]:  
+        c = n - f1 - 1
+          
+        r = binarySearchColumnInc(arr, n - f1 - 1, f1,  
+                                n - f1 - 2, x)  
+      
+    elif x < arr[n - f1 - 1][f1]:  
+          
+        c = binarySearchRowDec(arr, n - f1 - 1, f1 + 1,  
+                            n - f1 - 1, x)  
+        r = n - f1 - 1
+      
+    else: 
+          
+        r = binarySearchColumnDec(arr, f1, f1 + 1,  
+                                n - f1 - 1, x)  
+        c = f1  
+      
+    # Printing the position  
+    if c == -1 or r == -1: 
+        print("-1")  
+    else: 
+        print("{0} {1}".format(r, c))  
+  
+# Driver code  
+if __name__ == "__main__":  
+      
+    t = int(input())
+    for i in range(t):
+        n = int(input().strip())
+        a = [[0]*n for _ in range(n)]
+        for i in range(n):
+            a[i] = [int(j) for j in input().strip().split(" ")]
+        x = int(input())
+        spiralBinary(a, x)

@@ -1,0 +1,75 @@
+Problem Overview
+Given a tree print the maximum number of edges that can be removed to form a forest(a disjoint union of trees) in which each connected component of the forest should contain an even number of vertices. Also, note that the input graph will be such that it can always be decomposed into components containing an even number of nodes which indirectly means that N is even.
+
+Approach
+What we need is a subtree that has even number of vertices and as we get it we can remove the edge that connects it to the remaining of the tree so that we are left with a subtree of even vertices and the remaining tree with vertices N -(No. of vertices in the subtree removed). Now we are left with the same problem again with remaining tree having even number of vertices because remember that N is even so even-even=even, so we have to repeat this algorithm until the remaining tree cannot be decomposed further in the above manner. To maximize the number of subtree remove(which is equal to the number of edges removed) we have to remove subtree which cannot be decomposed in the above manner.
+
+To do this we can traverse the tree using dfs and the dfs function should return the number of vertices in the subtree of which the current node is the root. If a node gets in return an even number of vertices from one of it child then the edge from that node to its child should be removed and if the number is odd add it to the number of vertices that the subtree will have if the current node is the root of it.
+
+To make it clear below is the code in c++ for the dfs function:
+// ans is total number of edges removed and al is adjacency list of the tree.
+int dfs(int node)
+{
+    visit[node]=true;
+    int num_vertex=0;
+    for(int i=0;i<al[node].size();i++)
+    {
+        if(!visit[al[node][i]])
+        {
+            int num_nodes=dfs(al[node][i]);
+            if(num_nodes%2==0)
+                ans++;
+            else
+                num_vertex+=num_nodes;
+        }
+    }
+    return num_vertex+1;
+}
+Note: You can start the dfs from any node assuming that it's the root because it will have no effect on the answer.
+ Tested by Kamlesh Meher
+
+Problem Tester's code :
+C++
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+vector<int> al[105];
+bool visit[105];
+int n,m;
+int ans;
+
+int dfs(int node)
+{
+    visit[node]=true;
+    int num_vertex=0;
+    for(int i=0;i<al[node].size();i++)
+    {
+        if(!visit[al[node][i]])
+        {
+            int num_nodes=dfs(al[node][i]);
+            if(num_nodes%2==0)
+                ans++;
+            else
+                num_vertex+=num_nodes;
+        }
+    }
+    return num_vertex+1;
+}
+
+int main() {
+    int x,y;
+    cin>>n>>m;
+    for(int i=0;i<m;i++)
+    {
+        cin>>x>>y;
+        al[x].push_back(y);
+        al[y].push_back(x);
+    }
+    dfs(1);
+    cout<<ans;
+    return 0;
+}
